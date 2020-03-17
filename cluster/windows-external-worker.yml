@@ -1,0 +1,110 @@
+name: ((deployment_name))
+
+releases:
+- name: concourse
+  version: ((concourse_version))
+  sha1: ((concourse_sha1))
+  url: https://bosh.io/d/github.com/concourse/concourse-bosh-release?v=((concourse_version))
+- name: windows-utilities
+  version: ((windows_utilities_version))
+  url: "https://bosh.io/d/github.com/cloudfoundry-incubator/windows-utilities-release?v=((windows_utilities_version))"
+  sha1: ((windows_utilities_sha1))
+- name: windows-tools
+  sha1: ((windows_tools_sha1))
+  url: https://bosh.io/d/github.com/cloudfoundry-incubator/windows-tools-release?v=((windows_tools_version))
+  version: ((windows_tools_version))
+- name: windowsfs
+  sha1: ((windowsfs_sha1))
+  url: https://bosh.io/d/github.com/cloudfoundry/windowsfs-online-release?v=((windowsfs_version))
+  version: ((windowsfs_version))
+- name: winc
+  version: ((winc_version))
+  #sha1: ((winc_sha1))
+  #url: https://bosh.io/d/github.com/cloudfoundry/winc-release?v=((winc_version))
+- name: garden-runc
+  version: ((garden_runc_version))
+  #sha1: ((garden_runc_sha1))
+  #url: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=((winc_version))
+
+stemcells:
+- alias: windows
+  os: windows2019
+  version: latest
+
+instance_groups:
+- name: worker
+  instances: ((instances))
+  azs: ((azs))
+  vm_type: ((worker_vm_type))
+  stemcell: windows
+  networks: [{name: ((external_worker_network_name))}]
+  jobs:
+  - name: enable_ssh
+    release: windows-utilities
+  - name: worker
+    release: concourse
+    properties:
+      external_garden_url: http://127.0.0.1:9241
+      log_level: debug
+      tags: ((worker_tags))
+      worker_gateway:
+        hosts: ["((tsa_host)):2222"]
+        host_public_key: ((tsa_host_key.public_key))
+        worker_key:
+          private_key: ((worker_key.private_key))
+          public_key: ((worker_key.public_key))
+          public_key_fingerprint: ((worker_key.public_key_fingerprint))
+  - name: winc
+    release: winc
+  - name: winc-network-hns-acls
+    properties:
+      winc_network:
+        dns_servers:
+        - 8.8.8.8
+        mtu: 1500
+    release: winc
+  - name: groot
+    properties:
+      groot:
+        cached_image_uris:
+        - oci:///C:/var/vcap/packages/windows2019fs
+        driver_store: /var/vcap/data/groot
+        log_level: debug
+    release: winc
+  - name: garden-windows
+    properties:
+      garden:
+        destroy_containers_on_start: true
+        image_plugin: /var/vcap/packages/groot/groot.exe
+        image_plugin_extra_args:
+        - --driver-store=/var/vcap/data/groot
+        - --config=/var/vcap/jobs/groot/config/groot.yml
+        listen_address: 127.0.0.1:9241
+        log_level: debug
+        network_plugin: /var/vcap/packages/winc-network-hns-acls/winc-network.exe
+        network_plugin_extra_args:
+        - --configFile=/var/vcap/jobs/winc-network-hns-acls/config/interface.json
+        - --log=/var/vcap/sys/log/winc-network-hns-acls/winc-network.log
+        - --debug
+        nstar_bin: /var/vcap/packages/nstar/nstar.exe
+        runtime_plugin: /var/vcap/packages/winc/winc.exe
+    release: garden-runc
+  - name: golang-1-windows
+    release: windows-tools
+  - name: docker
+    release: windows-tools
+  - name: git
+    release: windows-tools
+  - name: mingw64
+    release: windows-tools
+  - name: processhacker
+    release: windows-tools
+  - name: windows2019fs
+    release: windowsfs
+
+update:
+  canaries: 1
+  max_in_flight: 1
+  serial: false
+  canary_watch_time: 1000-60000
+  update_watch_time: 1000-60000

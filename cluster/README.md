@@ -50,11 +50,13 @@ easily across a few supported IaaSes. Consult their
 [`concourse.md`](https://github.com/cloudfoundry/bosh-bootloader/blob/master/docs/concourse.md)
 docs for more information.
 
-
 ## External Concourse worker
 
 In case you have a distributed setup with external concourse workers deployed on another BOSH
 you can deploy those with:
+
+### Linux
+
 ```shell
 bosh -e $BOSH_ENVIRONMENT deploy -d concourse-worker external-worker.yml \
   -l ../versions.yml \
@@ -63,6 +65,21 @@ bosh -e $BOSH_ENVIRONMENT deploy -d concourse-worker external-worker.yml \
   -v instances=2 \
   -v azs=[z1] \
   -v deployment_name=concourse-worker \
+  -v tsa_host=10.244.15.2 \
+  -v worker_tags=[tags] \
+  -l <path/to/secrets.yml>
+```
+
+### Windows
+
+```shell
+bosh -e $BOSH_ENVIRONMENT deploy -d windows-concourse-worker windows-external-worker.yml \
+  -l ../versions.yml \
+  -v external_worker_network_name=concourse \
+  -v worker_vm_type=concourse-workers \
+  -v instances=2 \
+  -v azs=[z1] \
+  -v deployment_name=windows-concourse-worker \
   -v tsa_host=10.244.15.2 \
   -v worker_tags=[tags] \
   -l <path/to/secrets.yml>
