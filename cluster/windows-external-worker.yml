@@ -91,14 +91,6 @@ instance_groups:
     release: garden-runc
   - name: golang-1-windows
     release: windows-tools
-  - name: docker
-    release: windows-tools
-  - name: git
-    release: windows-tools
-  - name: mingw64
-    release: windows-tools
-  - name: processhacker
-    release: windows-tools
   - name: windows2019fs
     release: windowsfs
 
