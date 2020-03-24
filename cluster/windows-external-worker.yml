@@ -19,12 +19,12 @@ releases:
   version: ((windowsfs_version))
 - name: winc
   version: ((winc_version))
-  #sha1: ((winc_sha1))
-  #url: https://bosh.io/d/github.com/cloudfoundry/winc-release?v=((winc_version))
+  sha1: ((winc_sha1))
+  url: https://bosh.io/d/github.com/cloudfoundry/winc-release?v=((winc_version))
 - name: garden-runc
   version: ((garden_runc_version))
-  #sha1: ((garden_runc_sha1))
-  #url: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=((winc_version))
+  sha1: ((garden_runc_sha1))
+  url: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=((winc_version))
 
 stemcells:
 - alias: windows
@@ -59,9 +59,7 @@ instance_groups:
   - name: winc-network-hns-acls
     properties:
       winc_network:
-        dns_servers:
-        - 8.8.8.8
-        mtu: 1500
+        allow_outbound_traffic_by_default: true
     release: winc
   - name: groot
     properties:
