@@ -41,7 +41,7 @@ instance_groups:
   jobs:
   - name: enable_ssh
     release: windows-utilities
-  - name: worker
+  - name: worker-windows
     release: concourse
     properties:
       external_garden_url: http://127.0.0.1:9241
