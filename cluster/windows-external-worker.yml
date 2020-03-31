@@ -20,7 +20,7 @@ releases:
 - name: winc
   version: ((winc_version))
   sha1: ((winc_sha1))
-  url: https://bosh.io/d/github.com/cloudfoundry/winc-release?v=((winc_version))
+  url: https://bosh.io/d/github.com/cloudfoundry-incubator/winc-release?v=((winc_version))
 - name: garden-runc
   version: ((garden_runc_version))
   sha1: ((garden_runc_sha1))
