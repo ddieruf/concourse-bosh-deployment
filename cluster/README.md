@@ -70,6 +70,20 @@ bosh -e $BOSH_ENVIRONMENT deploy -d concourse-worker external-worker.yml \
   -l <path/to/secrets.yml>
 ```
 
+The `secrets.yml` file has to contain the public tsa host key of the concourse master and the worker private
+key:
+
+```yaml
+tsa_host_key:
+  public_key: <public_key>
+
+worker_key:
+  private_key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    ...
+    -----END RSA PRIVATE KEY-----
+```
+
 ### Windows
 
 ```shell
@@ -85,14 +99,15 @@ bosh -e $BOSH_ENVIRONMENT deploy -d windows-concourse-worker windows-external-wo
   -l <path/to/secrets.yml>
 ```
 
-The `secrets.yml` file has to contain the public tsa host key of the concourse master and the worker private
-key:
+The `secrets.yml` file has to contain keys from both the tsa host and worker:
 
 ```yaml
 tsa_host_key:
   public_key: <public_key>
 
 worker_key:
+  public_key: <public_key>
+	public_key_fingerprint: <public_key_fingerprint>
   private_key: |
     -----BEGIN RSA PRIVATE KEY-----
     ...

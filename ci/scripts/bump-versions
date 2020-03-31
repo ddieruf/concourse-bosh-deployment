@@ -16,6 +16,17 @@ cat ./concourse-bosh-deployment/versions.yml | \
   sed -e "s/bpm_sha1: .*/bpm_sha1: '$(cat bpm-release/sha1)'/" | \
   sed -e "s/postgres_version: .*/postgres_version: '$(cat postgres-release/version)'/" | \
   sed -e "s/postgres_sha1: .*/postgres_sha1: '$(cat postgres-release/sha1)'/" \
+
+  sed -e "s/windows_utilities_version: .*/windows_utilities_version: '$(cat windows-utilities-release/version)'/" | \
+  sed -e "s/windows_utilities_sha1: .*/windows_utilities_sha1: '$(cat windows-utilities-release/sha1)'/" \
+  sed -e "s/windows_tools_version: .*/windows_tools_version: '$(cat windows-tools-release/version)'/" | \
+  sed -e "s/windows_tools_sha1: .*/windows_tools_sha1: '$(cat windows-tools-release/sha1)'/" \
+  sed -e "s/windowsfs_version: .*/windowsfs_version: '$(cat windowsfs-online-release/version)'/" | \
+  sed -e "s/windowsfs_sha1: .*/windowsfs_sha1: '$(cat windowsfs-online-release/sha1)'/" \
+  sed -e "s/winc_version: .*/winc_version: '$(cat winc-release/version)'/" | \
+  sed -e "s/winc_sha1: .*/winc_sha1: '$(cat winc-release/sha1)'/" \
+  sed -e "s/garden_runc_version: .*/garden_runc_version: '$(cat garden-runc-release/version)'/" | \
+  sed -e "s/garden_runc_sha1: .*/garden_runc_sha1: '$(cat garden-runc-release/sha1)'/" \
   > bumped-repo/versions.yml
 
 cd bumped-repo

@@ -11,6 +11,11 @@ inputs:
 - name: concourse-boshio
 - name: bpm-release
 - name: postgres-release
+- name: windows-utilities-release
+- name: windows-tools-release
+- name: windowsfs-online-release
+- name: winc-release
+- name: garden-runc-release
 
 outputs:
 - name: bumped-repo

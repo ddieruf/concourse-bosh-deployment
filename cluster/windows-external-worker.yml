@@ -58,8 +58,7 @@ instance_groups:
     release: winc
   - name: winc-network-hns-acls
     properties:
-      winc_network:
-        allow_outbound_traffic_by_default: true
+      allow_outbound_traffic_by_default: true
     release: winc
   - name: groot
     properties:
