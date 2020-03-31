@@ -86,6 +86,8 @@ worker_key:
 
 ### Windows
 
+Remember to `bosh -e $BOSH_ENVIRONMENT upload-stemcell ~/bosh-stemcell-2019.<VERSION>-vsphere-esxi-windows2019-go_agent.tgz` your windows stemcell before running the below command. Learn more about uploading stemcells [here](https://bosh.io/docs/uploading-stemcells/). If you're running concourse in a public cloud get your windows stemcell [here](https://bosh.cloudfoundry.org/stemcells/#windows2019). If your running on vsphere lean more about building your stemcell [here](https://github.com/cloudfoundry-community/windows-stemcell-concourse/).
+
 ```shell
 bosh -e $BOSH_ENVIRONMENT deploy -d windows-concourse-worker windows-external-worker.yml \
   -l ../versions.yml \
@@ -107,7 +109,7 @@ tsa_host_key:
 
 worker_key:
   public_key: <public_key>
-	public_key_fingerprint: <public_key_fingerprint>
+  public_key_fingerprint: <public_key_fingerprint>
   private_key: |
     -----BEGIN RSA PRIVATE KEY-----
     ...
