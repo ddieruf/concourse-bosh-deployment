@@ -1,0 +1,3 @@
+- type: replace
+  path: /instance_groups/name=worker/jobs/name=winc-network-hns-acls/properties/winc_network?/dns_servers?
+  value: ((winc_dns_servers))
