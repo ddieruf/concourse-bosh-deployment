@@ -32,7 +32,7 @@ stemcells:
   version: latest
 
 instance_groups:
-- name: worker
+- name: windows-worker
   instances: ((instances))
   azs: ((azs))
   vm_type: ((worker_vm_type))
@@ -58,7 +58,9 @@ instance_groups:
     release: winc
   - name: winc-network-hns-acls
     properties:
-      allow_outbound_traffic_by_default: true
+      winc_network:
+        allow_outbound_traffic_by_default: true
+        mtu: 1500
     release: winc
   - name: groot
     properties:
@@ -93,7 +95,7 @@ instance_groups:
 
 update:
   canaries: 1
-  max_in_flight: 1
+  max_in_flight: 3
   serial: false
   canary_watch_time: 1000-60000
   update_watch_time: 1000-60000
